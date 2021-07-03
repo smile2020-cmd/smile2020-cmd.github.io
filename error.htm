@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="gb2312">
+<head>
+<title>无法访问网页 - iwms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link rel="stylesheet" href="style/msg/style.css" type="text/css"/>
+<script type="text/javascript">
+var msg, url, t;
+	
+function init()
+{
+	var tt = new Array();
+	var errs = new Array();
+	var q = document.location.href.toLowerCase();
+
+	tt[0] = "网页不存在";
+	tt[1] = "ViewState被破坏";
+	tt[2] = "目录权限不足";
+	tt[3] = "非法访问";
+	tt[4] = "非法参数";
+	
+	errs[0] = "你请求的网页已经不存在";
+	errs[1] = "你的防火墙破坏了网页ViewState的完整性<br>请关闭服务器防火墙后再试";
+	errs[2] = "你的网站所在目录权限不够<br>请给网站所在目录aspnet读/写/建目录权限<br>如果是win2000请给所在分区aspnet读权限";
+	errs[3] = "请从本站访问该资源";
+	errs[4] = "地址错误，你使用了非法的参数";
+	
+	url = q;
+	if (url.indexOf("?")>0){
+		url = url.substr(0,url.lastIndexOf("?"));
+	}
+	url = url.substr(0,url.lastIndexOf("/")+1);
+	
+	if (q.lastIndexOf("?")<0){
+		q = 0;
+	}else{
+		q = q.substr(q.lastIndexOf("?")+1);
+		q = q.split("=")[1];
+	}
+	
+	msg = errs[parseInt(q)];
+	t = tt[parseInt(q)];
+}
+
+init();
+</script>
+</head>
+<body>
+	<div class="mframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+			<div class="title"><script type="text/javascript">document.write(t);</script> - iwms</div>
+			<script type="text/javascript">
+				document.write(msg+"<br><br>");
+				document.write("<a href=\""+ url +"\" target=\"_top\">"+ url +"</a>");
+				window.setTimeout("window.top.location='"+url+"';",3000);
+			</script>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+
+</body>
+</html>

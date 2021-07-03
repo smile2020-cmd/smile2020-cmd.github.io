@@ -1,0 +1,415 @@
+<html>
+	<head>
+		<title>iwms网页采集规则制作向导</title>
+		<meta http-equiv="content-type" content="text/html;charset=gb2312"/>
+		<link rel="styleSheet" type="text/css" href="style/admin/style.css"></link>
+		<style type="text/css">
+			input {border:1px solid #999999;}
+			textarea {border:1px solid #999999;overflow-y:auto;}
+			button {border-width:1px;}
+		</style>
+	
+		<script type="text/javascript">
+			var o_step1, o_step2, o_step3, o_step4, o_step5, o_step6, o_step6, o_step7, o_step8, o_step9;
+			
+			function Init()
+			{
+				for(var i=1; i<12; i++){
+					eval("o_step"+ i +" = document.getElementById(\"step"+ i +"\");");
+				}
+				
+				var objs = new Array("preview", "name", "startUrl", "charset", "area1", "area2", "list1", "list2", "listNext1", "listNext2",
+						"title1", "title2", "content1", "content2", "author1", "author2", "source1", "source2", "time1", "time2", 
+						"pageTitle1", "pageTitle2", "nextPage1", "nextPage2");
+				for(var i=0; i<objs.length; i++){
+					eval("o_"+ objs[i] +"=document.getElementById(\""+ objs[i] +"\");")
+				}
+				
+			}
+			
+			function StepTest(step)
+			{
+				if(!StepValid(step)){
+					return;
+				}
+				if (PreviewEmpty()){
+					return;
+				}
+				switch (step) {
+					case 2:
+						var s = GetRegex(area1.value, area2.value, false);
+						MatchString(s);
+						break;
+					case 3:
+						var con = "";
+						if (area1.value.length>0 && area2.value.length>0){
+							con = o_preview.value;
+							o_preview.value = con.substr(con.indexOf(area1.value));
+						}
+						var s = GetRegex(list1.value, list2.value, true);
+						MatchString(s);
+						o_preview.value = con;
+						break;
+					case 4:
+						var s = GetRegex(listNext1.value, listNext2.value, true);
+						MatchString(s);
+						break;
+					case 5:
+						var s = GetRegex(title1.value, title2.value, false);
+						MatchString(s);
+						break;
+					case 6:
+						var s = GetRegex(content1.value, content2.value, false);
+						MatchString(s);
+						break;
+					case 7:
+						var s = GetRegex(author1.value, author2.value, false);
+						MatchString(s);
+						break;
+					case 8:
+						var s = GetRegex(source1.value, source2.value, false);
+						MatchString(s);
+						break;
+					case 9:
+						var s = GetRegex(time1.value, time2.value, true);
+						MatchString(s);
+						break;
+					case 10:
+						var s = GetRegex(pageTitle1.value, pageTitle2.value, true);
+						MatchString(s);
+						break;
+					case 11:
+						var s = GetRegex(nextPage1.value, nextPage2.value, true);
+						MatchString(s);
+						break;
+				}
+			}
+			
+			function StepNext(step)
+			{
+				if (step==1 || step==3 || step==5 || step==6){
+					if(!StepValid(step)){
+						return;
+					}
+				}
+				for(var i=1; i<12; i++){
+					eval("o_step"+ i +".style.display='none';");
+				}
+				if (step==11){
+					step = 10;
+				}
+				eval("o_step"+ (step+1) +".style.display='';");
+				// 换新闻页源文件代码
+				if (step==4){
+					o_preview.style.color="#aaa";
+					o_preview.value="请复制新闻显示页源文件代码到此";
+				}
+			}
+			
+			function Done()
+			{
+				var arr = new Array(o_name.value, o_startUrl.value, o_charset.value, 
+								GetRegex(area1.value, area2.value, false, "area"),
+								GetRegex(list1.value, list2.value, true, "url"),
+								GetRegex(listNext1.value, listNext2.value, true, "url"),
+								GetRegex(title1.value, title2.value, false, "title"),
+								GetRegex(content1.value, content2.value, false, "content"),
+								GetRegex(author1.value, author2.value, false, "author"),
+								GetRegex(source1.value, source2.value, false, "source"),
+								GetRegex(time1.value, time2.value, true, "time"),
+								GetRegex(pageTitle1.value, pageTitle2.value, true, "title"),
+								GetRegex(nextPage1.value, nextPage2.value, true, "url")
+								);
+				opener.WizardAdd(arr);
+				window.close();
+			}
+			
+			function StepValid(step)
+			{
+				var v = true;
+				switch (step) {
+					case 1:
+						if (o_name.value=="" || o_startUrl.value==""){
+							o_name.focus();
+							v = false;
+						}else{
+							o_preview.style.display="";
+						}
+						break;
+					case 2:
+						if (o_area1.value=="" || o_area2.value==""){
+							o_area1.focus();
+							v = false;
+						}
+						break;
+					case 3:
+						if (o_list1.value=="" || o_list2.value==""){
+							o_list1.focus();
+							v = false;
+						}
+						break;
+					case 4:
+						if (o_listNext1.value=="" || o_listNext2.value==""){
+							o_listNext1.focus();
+							v = false;
+						}
+						break;
+					case 5:
+						if (o_title1.value=="" || o_title2.value==""){
+							o_title1.focus();
+							v = false;
+						}
+						break;
+					case 6:
+						if (o_content1.value=="" || o_content2.value==""){
+							o_content1.focus();
+							v = false;
+						}
+						break;
+					case 7:
+						if (o_author1.value=="" || o_author2.value==""){
+							o_author1.focus();
+							v = false;
+						}
+						break;
+					case 8:
+						if (o_source1.value=="" || o_source2.value==""){
+							o_source1.focus();
+							v = false;
+						}
+						break;
+					case 9:
+						if (o_time1.value=="" || o_time2.value==""){
+							o_source1.focus();
+							v = false;
+						}
+						break;
+					case 10:
+						if (o_pageTitle1.value=="" || o_pageTitle2.value==""){
+							o_pageTitle1.focus();
+							v = false;
+						}
+						break;
+					case 11:
+						if (o_nextPage1.value=="" || o_nextPage2.value==""){
+							o_nextPage1.focus();
+							v = false;
+						}
+						break;
+				}
+				if (!v){
+					alert("请填写全内容");
+				}
+				return v;
+			}
+			
+			function GetRegex(str1, str2, noHtml, group)
+			{
+				if (str1.length==0 || str2.length==0){
+					return "";
+				}
+				var exs = new Array(/\\/gi, /\^/gi, /\$/gi, /\{/gi, /\[/gi, /\./gi, /\(/gi, /\*/gi, /\+/gi, /\?/gi, /\!/gi, /\#/gi,/\|/gi);
+				var chars = new Array("\\", "^", "$", "{", "[", ".", "(", "*", "+", "?", "!", "#", "|");
+				var letter = noHtml ? "[^><]" : ".";
+				for(i=0; i<exs.length; i++){
+					str1 = str1.replace(exs[i],"\\"+chars[i]);
+					str2 = str2.replace(exs[i],"\\"+chars[i]);
+				}
+				if (group==null){
+					str1 = str1.replace(/\r/ig,"\\s").replace(/\n/ig,"\\s");
+					str2 = str2.replace(/\r/ig,"\\s").replace(/\n/ig,"\\s");
+					return str1 +"(("+letter+"|\\n)+?)"+ str2
+				}else{
+					return str1 +"(?<"+group+">"+letter+"+?)"+ str2
+				}
+			}
+			
+			function MatchString(s)
+			{
+				var re, arr;
+				eval("re=/"+ s.replace(/\//g,"\\/") +"/igm;");
+				arr = re.exec(o_preview.value);
+				if (arr!=null){
+					s = "匹配内容如下：\r\n";
+					if (arr[1].length>300){
+						s += arr[1].substring(0,130) +"\r\n …… \r\n";
+						s += arr[1].substr(arr[1].length-130);
+					}else{
+						s += arr[1];
+					}
+					alert(s);
+				}else{
+					alert("没匹配的内容");
+				}
+			}
+			
+			function PreviewEmpty()
+			{
+				if (o_preview.value==""){
+					alert("请把网页源码复制到上边的文本框");
+					o_preview.focus();
+					return true;
+				}else{
+					return false;
+				}
+			}
+		</script>
+	</head>
+	<body>
+	<div id="twidth">
+		<div class="mframe">
+		<table width="500" align="center" cellspacing="0" cellpadding="0">
+		<tr>
+		<td class="tl"></td>
+		<td class="tm">
+			<span class="tt"><asp:Literal id="titleAct" runat="server"/>网页采集规则制作向导</span>
+		</td>
+		<td class="tr"></td>
+		</tr>
+		</table>
+		<table width="500" align="center" cellspacing="0" cellpadding="0">
+		<tr>
+		<td class="ml"></td>
+		<td class="mm" style="padding:5px 10px;">
+			<center>
+				<textarea id="preview" cols="66" rows="5" style="display:none;margin-bottom:20px;color:#aaa" onfocus="if(this.style.color=='#aaa'){this.style.color='#000';this.value='';}">请复制新闻列表网页源文件代码到此</textarea>
+			</center>
+			
+			<div id="step1">
+				采集规则名称　　
+				<input type="text" id="name" size="20"/><br/>
+				新闻列表页网址　
+				<input type="text" id="startUrl" size="20"/>　
+				
+				<select id="charset">
+					<option value="gb2312">简体中文</option>
+					<option value="big5">繁体中文</option>
+					<option value="utf-8">UTF8</option>
+				</select><br/>
+				<center><br/>
+				<button onclick="StepNext(1)">下一步</button>
+				</center>
+			</div>
+			
+			<div id="step2">
+				新闻标题范围开始HTML <textarea id="area1" rows="3" cols="40"></textarea><br/>
+				新闻标题范围结束HTML <textarea id="area2" rows="3" cols="40"></textarea>
+				<center><br/>
+				<button onclick="StepNext(0)">上一步</button>　　
+				<button onclick="StepTest(2)">测试</button>　　
+				<button onclick="StepNext(2)">下一步</button>
+				</center>
+			</div>
+			
+			
+			<div id="step3">
+				新闻网址前HTML <textarea id="list1" rows="3" cols="40"></textarea><br/>
+				新闻网址后HTML <textarea id="list2" rows="3" cols="40"></textarea>
+				<center><br/>
+				<button onclick="StepNext(1)">上一步</button>　　
+				<button onclick="StepTest(3)">测试</button>　　
+				<button onclick="StepNext(3)">下一步</button>
+				</center>
+			</div>
+			
+			<div id="step4">
+				新闻列表下页网址前HTML <textarea id="listNext1" rows="3" cols="40"></textarea><br/>
+				新闻列表下页网址后HTML <textarea id="listNext2" rows="3" cols="40"></textarea>
+				<center><br/>
+				<button onclick="StepNext(2)">上一步</button>　　
+				<button onclick="StepTest(4)">测试</button>　　
+				<button onclick="StepNext(4)">下一步</button>
+				</center>
+			</div>
+			
+			<div id="step5">
+				新闻标题前HTML <textarea id="title1" rows="3" cols="40"></textarea><br/>
+				新闻标题后HTML <textarea id="title2" rows="3" cols="40"></textarea>
+				<center><br/>
+				<button onclick="StepNext(3)">上一步</button>　　
+				<button onclick="StepTest(5)">测试</button>　　
+				<button onclick="StepNext(5)">下一步</button>
+				</center>
+			</div>
+			
+			<div id="step6">
+				新闻内容前HTML <textarea id="content1" rows="3" cols="40"></textarea><br/>
+				新闻内容后HTML <textarea id="content2" rows="3" cols="40"></textarea>
+				<center><br/>
+				<button onclick="StepNext(4)">上一步</button>　　
+				<button onclick="StepTest(6)">测试</button>　　
+				<button onclick="StepNext(6)">下一步</button>
+				</center>
+			</div>
+			
+			<div id="step7">
+				新闻作者前HTML <textarea id="author1" rows="3" cols="40"></textarea><br/>
+				新闻作者后HTML <textarea id="author2" rows="3" cols="40"></textarea>
+				<center><br/>
+				<button onclick="StepNext(5)">上一步</button>　　
+				<button onclick="StepTest(7)">测试</button>　　
+				<button onclick="StepNext(7)">下一步</button>
+				</center>
+			</div>
+			
+			<div id="step8">
+				新闻来源前HTML <textarea id="source1" rows="3" cols="40"></textarea><br/>
+				新闻来源后HTML <textarea id="source2" rows="3" cols="40"></textarea>
+				<center><br/>
+				<button onclick="StepNext(6)">上一步</button>　　
+				<button onclick="StepTest(8)">测试</button>　　
+				<button onclick="StepNext(8)">下一步</button>
+				</center>
+			</div>
+			
+			<div id="step9">
+				新闻日期前HTML <textarea id="time1" rows="3" cols="40"></textarea><br/>
+				新闻日期后HTML <textarea id="time2" rows="3" cols="40"></textarea>
+				<center><br/>
+				<button onclick="StepNext(7)">上一步</button>　　
+				<button onclick="StepTest(9)">测试</button>　　
+				<button onclick="StepNext(9)">下一步</button>
+				</center>
+			</div>
+			
+			<div id="step10">
+				新闻分页标题前HTML <textarea id="pageTitle1" rows="3" cols="40"></textarea><br/>
+				新闻分页标题后HTML <textarea id="pageTitle2" rows="3" cols="40"></textarea>
+				<center><br/>
+				<button onclick="StepNext(8)">上一步</button>　　
+				<button onclick="StepTest(10)">测试</button>　　
+				<button onclick="StepNext(10)">下一步</button>
+				</center>
+			</div>
+			
+			<div id="step11">
+				新闻下页网址前HTML <textarea id="nextPage1" rows="3" cols="40"></textarea><br/>
+				新闻下页网址后HTML <textarea id="nextPage2" rows="3" cols="40"></textarea>
+				<center><br/>
+				<button onclick="StepNext(9)">上一步</button>　　
+				<button onclick="StepTest(11)">测试</button>　　
+				<button onclick="Done()">完成</button><br/><br/>
+				点击完成后你还需要在规则添加页面修改参数后添加
+				</center>
+			</div>
+			
+			
+		</td>
+		<td class="mr"></td>
+		</tr>
+		</table>
+		<table width="500" align="center" cellspacing="0" cellpadding="0" >
+		<tr>
+		<td class="bl"></td>
+		<td class="bm">&nbsp;</td>
+		<td class="br"></td>
+		</tr>
+		</table>
+		</div>
+	</div>
+	<script type="text/javascript">
+		Init();
+		StepNext(0);
+	</script>
+	</body>
+</html>

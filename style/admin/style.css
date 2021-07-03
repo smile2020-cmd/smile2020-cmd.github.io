@@ -1,0 +1,63 @@
+input, textarea,button {  font-size: 12px; }
+form {margin:0px;padding:0px;}
+select {  font-size: 12px; border-width:1px}
+fieldset { border:1px solid #dddddd; margin:10px;}
+legend { font-weight:bold; color:midnightblue; }
+a img {border:0}
+
+.inputbg {border:0px; border-bottom:1px solid #999999; background:transparent}
+.iName { color:666666; font-weight:bold;}
+
+.pager { font-family:arial,宋体;}
+div.pager  { padding:4px 0;}
+.pager span.p_total { background:#FFF; font-weight:bold; color:#666; border:1px solid #999; padding:3px 5px; margin:0 1px;vertical-align:middle; }
+.pager span.p_current { background:beige; font-weight:bold; color:#666; border:1px solid #999; padding:3px 5px; margin:0 1px;vertical-align:middle;}
+.pager a:link, .pager a:visited { color:#333; background:#fff; border:1px solid #999; padding:3px 5px; margin:0 1px; text-decoration:none !important;vertical-align:middle;}
+.pager a:hover { background:#69e; color:#fff; border-color:#ddd;}
+.pager input {font-family:arial,宋体;margin:0 1px; border:1px dotted #999; width:2em; text-align:center; padding:2px 0; *padding:3px 0; vertical-align:middle;}
+
+a.highlight:link, a.highlight:visited { color:red; text-decoration:none }
+a.highlight:hover { color:red; text-decoration:underline }
+
+a.thisclass:link, a.thisclass:visited, a.thisclass:hover { font-weight:bold; text-decoration:none }
+.content, .content td { font-size: 14px;font-family:宋体,Arial; line-height:140%; margin:5px 20px }
+.content A:visited, .content A:link {color:blue; text-decoration:underline}
+.content A:hover {color:red; }
+.aTitle { font-size: 15px;font-weight:bold; }
+
+.gridHead { background: #eeeeee;font-weight:bold;color:black; height:23px }
+
+.gray { color:#bbb; text-decoration:none }
+.time { color:red }
+.hit { color:green }
+
+.tdbg { background: white ; line-height:120%}
+.tdbg-dark {background: #F6F6F6; line-height:120%}
+.tdbg-light {background: #FFFFFF; line-height:120%}
+
+
+.quote { margin:10px; margin-left:2em; border:1px solid #CCCCCC; padding:5px;  background: #FFFFFF; font-family:Verdana,Arial,宋体; word-break:break-all; }
+body {background:white;text-align:center;font-size:12px;font-family:tahoma,宋体;}
+a:link {color:#333399;text-decoration:none;}
+a:visited {color:#333399;text-decoration:none;}
+a:hover {color:#ff0000;text-decoration:underline;}
+.twidth {width:760px;text-align:left;}
+td {font-size:12px;}
+.mframe {text-align:left;}
+.mframe table {table-layout:fixed;}
+.mframe td table {table-layout:auto;}
+.mframe td.tm {height:25px;background:#d8c4f6;border-top:#dddddd 1px solid;border-bottom:#dddddd 2px solid;}
+.mframe td.tl {width:1px;background:#dddddd;}
+.mframe td.tr {width:1px;background:#dddddd;}
+.mframe span.tt {color:#000000;font-weight:bold;padding-left:10px;}
+.mframe td.mm {background:white;padding:3px;}
+.mframe td.ml {width:1px;background:#dddddd;}
+.mframe td.mr {width:1px;background:#dddddd;}
+.mframe td.bm {height:13px;border-top:1px solid #dddddd; font:0px;}
+.mframe td.bl {width:0px;background:none transparent scroll repeat 0% 0%;}
+.mframe td.br {width:0px;background:none transparent scroll repeat 0% 0%;}
+
+.tabs {text-align:left;padding-left:50px;}
+a.tab_on:link, a.tab_on:visited { position:relative; top:1px; font:bold 12px; color:white; background:#d8c4f6; padding:3px 10px; height:25px; border:1px solid #999999; border-bottom:transparent; text-decoration:none;}
+a.tab_off:link, a.tab_off:visited { position:relative;font:12px; background:#f6f6f6; padding:3px 10px; height:25px; border:1px solid #dddddd; border-bottom-color:transparent;}
+a.tab_off:hover { background:#d8c4f6; color:white; border-color:#999999; border-bottom-color:transparent; text-decoration:none;}
